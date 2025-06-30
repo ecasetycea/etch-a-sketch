@@ -2,3 +2,14 @@ body * {
     border: 1px black solid;
     background-color: rgba(255,0,0,.60);
 }
+
+.gridContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.gridColumn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
