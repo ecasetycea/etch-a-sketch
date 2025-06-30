@@ -1,0 +1,4 @@
+body * {
+    border: 1px black solid;
+    background-color: rgba(255,0,0,.60);
+}
