@@ -1,6 +1,18 @@
+
+/*
 body * {
-    border: 1px black solid;
+    border: 1px orange solid;
     background-color: rgba(255,0,0,.60);
+}
+*/
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
 }
 
 .gridContainer {
@@ -12,4 +24,21 @@ body * {
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+/* BORDERS */
+.gridBox {
+    border-bottom: 1px black solid;
+    border-right: 1px black solid;
+}
+.isOnTopRow {
+    border-top: 1px black solid;
+}
+.isOnLeftColumn {
+    border-left: 1px black solid;
+}
+/* ============= */
+
+.isColored {
+    background-color: black;
 }
