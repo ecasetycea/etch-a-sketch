@@ -32,14 +32,22 @@ function createGrid(...gridResolution) {
             if(i === 0) gridBox.classList.add("isOnLeftColumn");
             
             gridColumn.appendChild(gridBox);
-            
-            //for debug
-            gridBox.textContent = String(j) + ',' + String(i);
         }
         gridContainer.appendChild(gridColumn);
     }
 
-    addHoverTrail();
+    //addHoverTrail();
+    addHoverTrailRandom();
+}
+
+function getRandomHexColor() {
+    let colors = [0,0,0];
+    colors.forEach( (e) => {
+        let color = Math.floor( 256*Math.random() );
+        color = color.toString(16);
+        colors[colors.indexOf(e)] = color;
+    });
+    return '#' + colors.join('');
 }
 
 function getNumberInput(promptText) {
@@ -63,10 +71,11 @@ function getBoxSize(gridWidth, gridHeight, gridResWidth, gridResHeight) {
     let boxSide = minSize / maxRes;
     return Math.floor(boxSide);
 }
-
+/*
 function resizeBoxes() {
     //dynamically scale container with viewport
 }
+*/
 
 /* EVENT LISTENERS */
 function setupButtonEventListeners() {
@@ -86,7 +95,17 @@ function setupButtonEventListeners() {
 function addHoverTrail() {
     //capture container event to box for performance
     gridContainer.addEventListener("mouseover", (e) => {
+        e.target.classList.add("isBlack");
         e.target.classList.add("isColored");
+    });
+}
+
+function addHoverTrailRandom() {
+    gridContainer.addEventListener("mouseover", (e) => {
+        if(!e.target.classList.contains("isColored")) {
+            e.target.style.backgroundColor = getRandomHexColor();
+            e.target.classList.add("isColored");
+        }
     });
 }
 /* ================*/
