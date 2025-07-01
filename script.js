@@ -7,8 +7,8 @@ createGrid();
 
 
 function createGrid() {
-    setGridSize(...GRID_SIZE);
-    const boxSize = getBoxSize() + "px";
+    const boxSize = getBoxSize()
+    setActualGridSize(boxSize, ...GRID_RESOLUTION);
 
     //loop columns
     for(let i=0; i<GRID_RESOLUTION[0]; i++) {
@@ -19,8 +19,8 @@ function createGrid() {
         for(let j=0; j<GRID_RESOLUTION[1]; j++) {
             let gridBox = document.createElement("div");
             gridBox.classList.add("gridBox");
-            gridBox.style.width = boxSize;
-            gridBox.style.height = boxSize;
+            gridBox.style.width = boxSize + "px";
+            gridBox.style.height = boxSize + "px";
             
             //for debug
             gridBox.textContent = String(j) + ',' + String(i);
@@ -46,6 +46,17 @@ function addEL() {
 function setGridSize(width, height) {
     gridContainer.style.width = width + "px";
     gridContainer.style.height = height + "px";
+}
+
+function getActualGridSize(boxSize, ...gridRes) {
+    let width = boxSize * gridRes[0];
+    let height = boxSize * gridRes[1];
+    return [width, height];
+}
+
+function setActualGridSize(boxSize, ...gridRes) {
+    let size = getActualGridSize(boxSize, ...gridRes);
+    setGridSize(...size);
 }
 
 function getBoxSize() {
