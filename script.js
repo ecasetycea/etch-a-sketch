@@ -37,7 +37,8 @@ function createGrid(...gridResolution) {
     }
 
     //addHoverTrail();
-    addHoverTrailRandom();
+    //addHoverTrailColor();
+    addShadeTrail();
 }
 
 function getRandomHexColor() {
@@ -71,6 +72,19 @@ function getBoxSize(gridWidth, gridHeight, gridResWidth, gridResHeight) {
     let boxSide = minSize / maxRes;
     return Math.floor(boxSide);
 }
+
+function addBackgroundOpacity(string, percentage) {
+    let colArr = string.split(",");
+    let opacity = colArr[3];
+    opacity = opacity.slice(1,-1);
+    opacity *= 100;
+    opacity += percentage;
+    if(opacity > 100) opacity = 100;
+    opacity /= 100;
+    colArr[3] = " " + opacity + ")";
+    let colStr = String(colArr);
+    return colStr;
+}
 /*
 function resizeBoxes() {
     //dynamically scale container with viewport
@@ -100,13 +114,28 @@ function addHoverTrail() {
     });
 }
 
-function addHoverTrailRandom() {
+function addHoverTrailColor() {
     gridContainer.addEventListener("mouseover", (e) => {
         if(!e.target.classList.contains("isColored")) {
             e.target.style.backgroundColor = getRandomHexColor();
             e.target.classList.add("isColored");
         }
     });
+}
+
+function addShadeTrail() {
+    gridContainer.addEventListener("mouseover", (e) => {
+        if(e.target.classList.contains("isColored")) {
+            if(e.target.classList.contains("isShaded")) {
+                newColor = addBackgroundOpacity(e.target.style.backgroundColor, 10);
+                e.target.style.backgroundColor = newColor;
+            }
+        } else {
+            e.target.classList.add("isShaded");
+            e.target.classList.add("isColored");
+            e.target.style.backgroundColor = "rgba(0, 0, 0, 0.1)"
+        }
+    })
 }
 /* ================*/
 
