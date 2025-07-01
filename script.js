@@ -6,19 +6,19 @@ const resetButton = document.querySelector("#reset");
 
 setupButtonEventListeners();
 
-createGrid();
+createGrid(...GRID_RESOLUTION);
 
-function createGrid() {
-    const boxSize = getBoxSize()
-    setActualGridSize(boxSize, ...GRID_RESOLUTION);
+function createGrid(...gridResolution) {
+    const boxSize = getBoxSize(...GRID_SIZE, ...gridResolution);
+    setActualGridSize(boxSize, ...gridResolution);
 
     //loop columns
-    for(let i=0; i<GRID_RESOLUTION[0]; i++) {
+    for(let i=0; i<gridResolution[0]; i++) {
         let gridColumn = document.createElement("div");
         gridColumn.classList.add("gridColumn");
         
         //loop rows
-        for(let j=0; j<GRID_RESOLUTION[1]; j++) {
+        for(let j=0; j<gridResolution[1]; j++) {
             let gridBox = document.createElement("div");
             gridBox.classList.add("gridBox");
             gridBox.style.width = boxSize + "px";
@@ -42,7 +42,7 @@ function createGrid() {
 /* EVENT LISTENERS */
 function setupButtonEventListeners() {
     resetButton.addEventListener("click", () => {
-        resetGrid();
+        resetGrid(...GRID_RESOLUTION);
     });
 }
 
@@ -55,9 +55,9 @@ function addEL() {
 
 
 /* GRID */
-function resetGrid() {
+function resetGrid(...gridResolution) {
     gridContainer.innerHTML = '';
-    createGrid();
+    createGrid(...gridResolution);
 }
 
 function setGridSize(width, height) {
@@ -65,9 +65,9 @@ function setGridSize(width, height) {
     gridContainer.style.height = height + "px";
 }
 
-function getActualGridSize(boxSize, ...gridRes) {
-    let width = boxSize * gridRes[0];
-    let height = boxSize * gridRes[1];
+function getActualGridSize(boxSize, ResolutionWidth, ResolutionHeight) {
+    let width = boxSize * ResolutionWidth;
+    let height = boxSize * ResolutionHeight;
     return [width, height];
 }
 
@@ -77,9 +77,9 @@ function setActualGridSize(boxSize, ...gridRes) {
 }
 /* ===================*/
 
-function getBoxSize() {
-    let maxRes = Math.max(...GRID_RESOLUTION);
-    let minSize = Math.min(...GRID_SIZE);
+function getBoxSize(gridWidth, gridHeight, gridResWidth, gridResHeight) {
+    let minSize = Math.min(gridWidth, gridHeight);
+    let maxRes = Math.max(gridResWidth, gridResHeight);
     let boxSide = minSize / maxRes;
     return Math.floor(boxSide);
 }
