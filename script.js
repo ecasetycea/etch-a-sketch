@@ -38,13 +38,25 @@ function createGrid(...gridResolution) {
 
     //addHoverTrail();
     //addHoverTrailColor();
-    addShadeTrail();
+    //addShadeTrail();
+    addShadeTrailColor();
 }
 
-function getRandomHexColor() {
+//returns array of strings
+function getRandomRGBArray() {
     let colors = [0,0,0];
     colors.forEach( (e) => {
         let color = Math.floor( 256*Math.random() );
+        colors[colors.indexOf(e)] = String(color);
+    })
+    return colors;
+}
+
+//returns string of hex
+function getRandomHexColor() {
+    let colors = getRandomRGBArray();
+    colors.forEach( (e) => {
+        let color = Number(colors.indexOf(e));
         color = color.toString(16);
         colors[colors.indexOf(e)] = color;
     });
@@ -73,17 +85,24 @@ function getBoxSize(gridWidth, gridHeight, gridResWidth, gridResHeight) {
     return Math.floor(boxSide);
 }
 
+//string = rgba/hsla(###, ###, ###, #.#), needs the spaces after commas
 function addBackgroundOpacity(string, percentage) {
-    let colArr = string.split(",");
-    let opacity = colArr[3];
-    opacity = opacity.slice(1,-1);
-    opacity *= 100;
-    opacity += percentage;
-    if(opacity > 100) opacity = 100;
-    opacity /= 100;
-    colArr[3] = " " + opacity + ")";
-    let colStr = String(colArr);
-    return colStr;
+    //if opacity is 1, then rgba turns to rgb on its own.
+    //the if statement makes sure no exception is thrown
+    if(string.slice(0,4) === 'rgba') {
+        let colArr = string.split(",");
+        let opacity = colArr[3];
+        opacity = opacity.slice(1,-1);
+        opacity *= 100;
+        opacity += percentage;
+        //set max opacity if overshot
+        if(opacity > 100) opacity = 100;
+        opacity /= 100;
+        colArr[3] = " " + opacity + ")";
+        let colStr = String(colArr);
+        return colStr;
+    }
+    return string;
 }
 /*
 function resizeBoxes() {
@@ -134,6 +153,23 @@ function addShadeTrail() {
             e.target.classList.add("isShaded");
             e.target.classList.add("isColored");
             e.target.style.backgroundColor = "rgba(0, 0, 0, 0.1)"
+        }
+    })
+}
+
+function addShadeTrailColor() {
+    gridContainer.addEventListener("mouseover", (e) => {
+        if(e.target.classList.contains("isColored")) {
+            if(e.target.classList.contains("isShaded")) {
+                newColor = addBackgroundOpacity(e.target.style.backgroundColor, 10);
+                e.target.style.backgroundColor = newColor;
+            }
+        } else {
+            e.target.classList.add("isShaded");
+            e.target.classList.add("isColored");
+            colors = getRandomRGBArray();
+            colorStr = `rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, 0.1)`;
+            e.target.style.backgroundColor = colorStr;
         }
     })
 }
