@@ -36,10 +36,10 @@ function createGrid(...gridResolution) {
         gridContainer.appendChild(gridColumn);
     }
 
-    //addHoverTrail();
-    //addHoverTrailColor();
-    //addShadeTrail();
-    addShadeTrailColor();
+    //gridContainer.addEventListener("mouseover", trail);
+    //gridContainer.addEventListener("mouseover", trailColor);
+    //gridContainer.addEventListener("mouseover", shadeTrail);
+    gridContainer.addEventListener("mouseover", shadeTrailColor);
 }
 
 //returns array of strings
@@ -125,53 +125,44 @@ function setupButtonEventListeners() {
     });
 }
 
-function addHoverTrail() {
-    //capture container event to box for performance
-    gridContainer.addEventListener("mouseover", (e) => {
-        e.target.classList.add("isBlack");
+function trail(e) {
+    e.target.classList.add("isBlack");
+    e.target.classList.add("isColored");    
+}
+
+function trailColor(e) {
+    if(!e.target.classList.contains("isColored")) {
+        e.target.style.backgroundColor = getRandomHexColor();
         e.target.classList.add("isColored");
-    });
+    }
 }
 
-function addHoverTrailColor() {
-    gridContainer.addEventListener("mouseover", (e) => {
-        if(!e.target.classList.contains("isColored")) {
-            e.target.style.backgroundColor = getRandomHexColor();
-            e.target.classList.add("isColored");
+function shadeTrail(e) {
+    if(e.target.classList.contains("isColored")) {
+        if(e.target.classList.contains("isShaded")) {
+            newColor = addBackgroundOpacity(e.target.style.backgroundColor, 10);
+            e.target.style.backgroundColor = newColor;
         }
-    });
+    } else {
+        e.target.classList.add("isShaded");
+        e.target.classList.add("isColored");
+        e.target.style.backgroundColor = "rgba(0, 0, 0, 0.1)"
+    }
 }
 
-function addShadeTrail() {
-    gridContainer.addEventListener("mouseover", (e) => {
-        if(e.target.classList.contains("isColored")) {
-            if(e.target.classList.contains("isShaded")) {
-                newColor = addBackgroundOpacity(e.target.style.backgroundColor, 10);
-                e.target.style.backgroundColor = newColor;
-            }
-        } else {
-            e.target.classList.add("isShaded");
-            e.target.classList.add("isColored");
-            e.target.style.backgroundColor = "rgba(0, 0, 0, 0.1)"
+function shadeTrailColor(e) {
+    if(e.target.classList.contains("isColored")) {
+        if(e.target.classList.contains("isShaded")) {
+            newColor = addBackgroundOpacity(e.target.style.backgroundColor, 10);
+            e.target.style.backgroundColor = newColor;
         }
-    })
-}
-
-function addShadeTrailColor() {
-    gridContainer.addEventListener("mouseover", (e) => {
-        if(e.target.classList.contains("isColored")) {
-            if(e.target.classList.contains("isShaded")) {
-                newColor = addBackgroundOpacity(e.target.style.backgroundColor, 10);
-                e.target.style.backgroundColor = newColor;
-            }
-        } else {
-            e.target.classList.add("isShaded");
-            e.target.classList.add("isColored");
-            colors = getRandomRGBArray();
-            colorStr = `rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, 0.1)`;
-            e.target.style.backgroundColor = colorStr;
-        }
-    })
+    } else {
+        e.target.classList.add("isShaded");
+        e.target.classList.add("isColored");
+        colors = getRandomRGBArray();
+        colorStr = `rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, 0.1)`;
+        e.target.style.backgroundColor = colorStr;
+    }
 }
 /* ================*/
 
