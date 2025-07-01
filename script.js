@@ -170,12 +170,12 @@ function shadeTrail(e) {
 
 function shadeTrailColor(e) {
     if(e.target.classList.contains("isColored")) {
-        if(e.target.classList.contains("isShaded")) {
+        if(e.target.classList.contains("isColorShaded")) {
             newColor = addBackgroundOpacity(e.target.style.backgroundColor, 10);
             e.target.style.backgroundColor = newColor;
         }
     } else {
-        e.target.classList.add("isShaded");
+        e.target.classList.add("isColorShaded");
         e.target.classList.add("isColored");
         colors = getRandomRGBArray();
         colorStr = `rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, 0.1)`;
