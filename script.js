@@ -1,46 +1,24 @@
-const GRID_RESOLUTION = [16, 16]; //[width, height]
-const GRID_SIZE = [960, 960]; //[width, height] (px)
+const DEFAULT_GRID_RESOLUTION = [16, 16]; //[width, height]
+const GRID_SIZE = [800, 800]; //[width, height] (px)
 
 const gridContainer = document.querySelector(".gridContainer");
 const newButton = document.querySelector("#new");
 const defaultButton = document.querySelector("#default");
 const resetButton = document.querySelector("#reset");
+const buttons = document.querySelector(".buttons");
+const colorSelect = document.querySelector(".colorSelect");
+let currentGridRes = DEFAULT_GRID_RESOLUTION.slice();
 
-//alert(getNumberInput("test"));
-setupButtonEventListeners();
+setup();
 
-createGrid(...GRID_RESOLUTION);
-
-function createGrid(...gridResolution) {
-    const boxSize = getBoxSize(...GRID_SIZE, ...gridResolution);
-    setActualGridSize(boxSize, ...gridResolution);
-
-    //loop columns
-    for(let i=0; i<gridResolution[0]; i++) {
-        let gridColumn = document.createElement("div");
-        gridColumn.classList.add("gridColumn");
-        
-        //loop rows
-        for(let j=0; j<gridResolution[1]; j++) {
-            let gridBox = document.createElement("div");
-            gridBox.classList.add("gridBox");
-            gridBox.style.width = boxSize + "px";
-            gridBox.style.height = boxSize + "px";
-            
-            //add border missing from some boxes
-            if(j === 0) gridBox.classList.add("isOnTopRow");
-            if(i === 0) gridBox.classList.add("isOnLeftColumn");
-            
-            gridColumn.appendChild(gridBox);
-        }
-        gridContainer.appendChild(gridColumn);
-    }
-
-    //gridContainer.addEventListener("mouseover", trail);
-    //gridContainer.addEventListener("mouseover", trailColor);
-    //gridContainer.addEventListener("mouseover", shadeTrail);
-    gridContainer.addEventListener("mouseover", shadeTrailColor);
+function setup() {
+    //add event listener for preselected button
+    gridContainer.addEventListener("mouseover", trail);
+    
+    setupButtonEventListeners();
+    createGrid(...DEFAULT_GRID_RESOLUTION);
 }
+
 
 //returns array of strings
 function getRandomRGBArray() {
@@ -56,7 +34,7 @@ function getRandomRGBArray() {
 function getRandomHexColor() {
     let colors = getRandomRGBArray();
     colors.forEach( (e) => {
-        let color = Number(colors.indexOf(e));
+        let color = Number(colors[colors.indexOf(e)]);
         color = color.toString(16);
         colors[colors.indexOf(e)] = color;
     });
@@ -104,25 +82,65 @@ function addBackgroundOpacity(string, percentage) {
     }
     return string;
 }
+
 /*
 function resizeBoxes() {
     //dynamically scale container with viewport
-}
+    }
 */
-
+   
 /* EVENT LISTENERS */
 function setupButtonEventListeners() {
-    newButton.addEventListener("click", () => {
-        let width = getNumberInput("Enter resolution width");
-        let height = getNumberInput("Enter resolution height");
-        resetGrid(width, height);
+    buttons.addEventListener("click", (e) => {
+        let btnId = e.target.id;
+        switch(btnId) {
+            case "new":
+                let width = getNumberInput("Enter resolution width");
+                let height = getNumberInput("Enter resolution height");
+                //handle cancellation or 0 entry
+                if(!width) width = 16;
+                if(!height) height = 16;
+                resetGrid(width, height);
+                break;
+            case "default":
+                resetGrid(16,16);
+                break;
+            case "reset":
+                resetGrid(...currentGridRes);
+        }
     });
-    defaultButton.addEventListener("click", () => {
-        resetGrid(16, 16);
+    colorSelect.addEventListener("click", (e) => {
+        let btnId = e.target.id;
+        let selected = document.querySelector(".isSelected");
+        //if clicking the same button, return (do nothing)
+        if(btnId === selected.id) return e;
+        
+        //else change the selected...
+        selected.classList.remove("isSelected");
+        e.target.classList.add("isSelected");
+        //...and handle event listeners
+        removeTrailEventListeners();
+        switch(btnId) {
+            case "trail":
+                gridContainer.addEventListener("mouseover", trail);
+                break;
+            case "trailColor":
+                gridContainer.addEventListener("mouseover", trailColor);
+                break;
+            case "shadeTrail":
+                gridContainer.addEventListener("mouseover", shadeTrail);
+                break;
+            case "shadeTrailColor":
+                gridContainer.addEventListener("mouseover", shadeTrailColor);
+        }
     });
-    resetButton.addEventListener("click", () => {
-        resetGrid(...GRID_RESOLUTION);
-    });
+}
+
+function removeTrailEventListeners() {
+    gridContainer.removeEventListener("mouseover", trail);
+    gridContainer.removeEventListener("mouseover", trailColor);
+    gridContainer.removeEventListener("mouseover", shadeTrail);
+    gridContainer.removeEventListener("mouseover", shadeTrailColor);
 }
 
 function trail(e) {
@@ -168,6 +186,33 @@ function shadeTrailColor(e) {
 
 
 /* GRID */
+function createGrid(...gridResolution) {
+    currentGridRes = gridResolution;
+    const boxSize = getBoxSize(...GRID_SIZE, ...gridResolution);
+    setActualGridSize(boxSize, ...gridResolution);
+
+    //loop columns
+    for(let i=0; i<gridResolution[0]; i++) {
+        let gridColumn = document.createElement("div");
+        gridColumn.classList.add("gridColumn");
+        
+        //loop rows
+        for(let j=0; j<gridResolution[1]; j++) {
+            let gridBox = document.createElement("div");
+            gridBox.classList.add("gridBox");
+            gridBox.style.width = boxSize + "px";
+            gridBox.style.height = boxSize + "px";
+            
+            //add border missing from some boxes
+            if(j === 0) gridBox.classList.add("isOnTopRow");
+            if(i === 0) gridBox.classList.add("isOnLeftColumn");
+            
+            gridColumn.appendChild(gridBox);
+        }
+        gridContainer.appendChild(gridColumn);
+    }
+}
+
 function resetGrid(...gridResolution) {
     gridContainer.innerHTML = '';
     createGrid(...gridResolution);
