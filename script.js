@@ -3,6 +3,7 @@ const GRID_SIZE = [960, 960]; //[width, height] (px)
 
 const gridContainer = document.querySelector(".gridContainer");
 const newButton = document.querySelector("#new");
+const defaultButton = document.querySelector("#default");
 const resetButton = document.querySelector("#reset");
 
 //alert(getNumberInput("test"));
@@ -38,7 +39,7 @@ function createGrid(...gridResolution) {
         gridContainer.appendChild(gridColumn);
     }
 
-    addEL();
+    addHoverTrail();
 }
 
 function getNumberInput(promptText) {
@@ -70,14 +71,20 @@ function resizeBoxes() {
 /* EVENT LISTENERS */
 function setupButtonEventListeners() {
     newButton.addEventListener("click", () => {
-
+        let width = getNumberInput("Enter resolution width");
+        let height = getNumberInput("Enter resolution height");
+        resetGrid(width, height);
+    });
+    defaultButton.addEventListener("click", () => {
+        resetGrid(16, 16);
     });
     resetButton.addEventListener("click", () => {
         resetGrid(...GRID_RESOLUTION);
     });
 }
 
-function addEL() {
+function addHoverTrail() {
+    //capture container event to box for performance
     gridContainer.addEventListener("mouseover", (e) => {
         e.target.classList.add("isColored");
     });

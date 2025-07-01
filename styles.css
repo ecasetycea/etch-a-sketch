@@ -23,7 +23,7 @@ body {
 }
 button {
     flex: none;
-    width: 100px;
+    width: 150px;
     height: 30px;
     margin: 0 20px;
 }
