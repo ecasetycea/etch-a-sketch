@@ -1,10 +1,12 @@
-const GRID_RESOLUTION = [20, 16]; //[width, height]
+const GRID_RESOLUTION = [16, 16]; //[width, height]
 const GRID_SIZE = [960, 960]; //[width, height] (px)
 
 const gridContainer = document.querySelector(".gridContainer");
+const resetButton = document.querySelector("#reset");
+
+setupButtonEventListeners();
 
 createGrid();
-
 
 function createGrid() {
     const boxSize = getBoxSize()
@@ -22,14 +24,14 @@ function createGrid() {
             gridBox.style.width = boxSize + "px";
             gridBox.style.height = boxSize + "px";
             
-            //for debug
-            gridBox.textContent = String(j) + ',' + String(i);
-            
             //add border missing from some boxes
             if(j === 0) gridBox.classList.add("isOnTopRow");
             if(i === 0) gridBox.classList.add("isOnLeftColumn");
-
+            
             gridColumn.appendChild(gridBox);
+            
+            //for debug
+            gridBox.textContent = String(j) + ',' + String(i);
         }
         gridContainer.appendChild(gridColumn);
     }
@@ -37,10 +39,25 @@ function createGrid() {
     addEL();
 }
 
+/* EVENT LISTENERS */
+function setupButtonEventListeners() {
+    resetButton.addEventListener("click", () => {
+        resetGrid();
+    });
+}
+
 function addEL() {
-    gridContainer.addEventListener( "mouseover", (e) => {
+    gridContainer.addEventListener("mouseover", (e) => {
         e.target.classList.add("isColored");
     });
+}
+/* ================*/
+
+
+/* GRID */
+function resetGrid() {
+    gridContainer.innerHTML = '';
+    createGrid();
 }
 
 function setGridSize(width, height) {
@@ -58,6 +75,7 @@ function setActualGridSize(boxSize, ...gridRes) {
     let size = getActualGridSize(boxSize, ...gridRes);
     setGridSize(...size);
 }
+/* ===================*/
 
 function getBoxSize() {
     let maxRes = Math.max(...GRID_RESOLUTION);

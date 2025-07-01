@@ -11,8 +11,20 @@ body * {
 }
 
 body {
+    margin: 20px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+}
+
+.buttons {
+    margin-bottom: 20px;
+}
+button {
+    flex: none;
+    width: 100px;
+    height: 30px;
 }
 
 .gridContainer {
