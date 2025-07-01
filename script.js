@@ -2,8 +2,10 @@ const GRID_RESOLUTION = [16, 16]; //[width, height]
 const GRID_SIZE = [960, 960]; //[width, height] (px)
 
 const gridContainer = document.querySelector(".gridContainer");
+const newButton = document.querySelector("#new");
 const resetButton = document.querySelector("#reset");
 
+//alert(getNumberInput("test"));
 setupButtonEventListeners();
 
 createGrid(...GRID_RESOLUTION);
@@ -39,8 +41,37 @@ function createGrid(...gridResolution) {
     addEL();
 }
 
+function getNumberInput(promptText) {
+    let number;
+    while(true) {
+        number = Number(prompt(promptText));
+        if(!isNaN(number)) {
+            if(number%1 !== 0) {
+                alert("Decimal number, rounding down");
+                return Math.floor(number);
+            }
+            return number;
+        }
+        alert("Please enter a number");
+    }
+}
+
+function getBoxSize(gridWidth, gridHeight, gridResWidth, gridResHeight) {
+    let minSize = Math.min(gridWidth, gridHeight);
+    let maxRes = Math.max(gridResWidth, gridResHeight);
+    let boxSide = minSize / maxRes;
+    return Math.floor(boxSide);
+}
+
+function resizeBoxes() {
+    //dynamically scale container with viewport
+}
+
 /* EVENT LISTENERS */
 function setupButtonEventListeners() {
+    newButton.addEventListener("click", () => {
+
+    });
     resetButton.addEventListener("click", () => {
         resetGrid(...GRID_RESOLUTION);
     });
@@ -76,14 +107,3 @@ function setActualGridSize(boxSize, ...gridRes) {
     setGridSize(...size);
 }
 /* ===================*/
-
-function getBoxSize(gridWidth, gridHeight, gridResWidth, gridResHeight) {
-    let minSize = Math.min(gridWidth, gridHeight);
-    let maxRes = Math.max(gridResWidth, gridResHeight);
-    let boxSide = minSize / maxRes;
-    return Math.floor(boxSide);
-}
-
-function resizeBoxes() {
-    //dynamically scale container with viewport
-}
