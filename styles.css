@@ -13,14 +13,23 @@ body * {
 body {
     margin: 20px;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 50px;
 }
 
 .buttons,
 .colorSelect {
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 button {
