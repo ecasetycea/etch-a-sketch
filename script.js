@@ -98,8 +98,8 @@ function setupButtonEventListeners() {
                 let width = getNumberInput("Enter resolution width");
                 let height = getNumberInput("Enter resolution height");
                 //handle cancellation or 0 entry
-                if(!width) width = 16;
-                if(!height) height = 16;
+                if(!width) width = DEFAULT_GRID_RESOLUTION[0];
+                if(!height) height = DEFAULT_GRID_RESOLUTION[1];
                 resetGrid(width, height);
                 break;
             case "default":
