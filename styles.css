@@ -21,15 +21,25 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    gap: 50px;
+    align-items: center;
+    gap: 30px;
 }
 
 .buttons,
 .colorSelect {
     margin-bottom: 20px;
     display: flex;
-    flex-direction: column;
     gap: 5px;
+}
+
+.buttons {
+    flex-direction: column;
+}
+
+.colorSelect {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 150px;
 }
 
 button {
@@ -42,6 +52,13 @@ button {
     border-radius: 20px;
     color: white;
     font-size: 18px;
+}
+
+button.squareBtn {
+    width: 50px; /*should be 75*/
+    height: 50px;
+    margin: 5px 5px;
+    border-radius: 4px;
 }
 
 .isSelected,
