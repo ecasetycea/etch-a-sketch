@@ -18,11 +18,10 @@ setup();
 
 
 function setup() {
-    document.body.addEventListener("mousedown", () => {mouseDown=true;} );
-    document.body.addEventListener("mouseup", () => {mouseDown=false;} );
-
     //add event listener for preselected button
     gridContainer.addEventListener("mouseover", trail);
+    gridContainer.addEventListener("mousedown", trailClick);
+    document.body.addEventListener("mouseup", () => {mouseDown=false;} );
     
     setupButtonEventListeners();
     createGrid(...DEFAULT_GRID_RESOLUTION);
@@ -147,15 +146,19 @@ function setupButtonEventListeners() {
         switch(btnId) {
             case "trail":
                 gridContainer.addEventListener("mouseover", trail);
+                gridContainer.addEventListener("mousedown", trailClick);
                 break;
             case "trailColor":
                 gridContainer.addEventListener("mouseover", trailColor);
+                gridContainer.addEventListener("mousedown", trailColorClick);
                 break;
             case "shadeTrail":
                 gridContainer.addEventListener("mouseover", shadeTrail);
+                gridContainer.addEventListener("mousedown", shadeTrailClick);
                 break;
             case "shadeTrailColor":
                 gridContainer.addEventListener("mouseover", shadeTrailColor);
+                gridContainer.addEventListener("mousedown", shadeTrailColorClick);
         }
     });
 }
@@ -165,6 +168,10 @@ function removeTrailEventListeners() {
     gridContainer.removeEventListener("mouseover", trailColor);
     gridContainer.removeEventListener("mouseover", shadeTrail);
     gridContainer.removeEventListener("mouseover", shadeTrailColor);
+    gridContainer.removeEventListener("mousedown", trailClick);
+    gridContainer.removeEventListener("mousedown", trailColorClick);
+    gridContainer.removeEventListener("mousedown", shadeTrailClick);
+    gridContainer.removeEventListener("mousedown", shadeTrailColorClick);
 }
 
 function trail(e) {
@@ -173,7 +180,6 @@ function trail(e) {
         e.target.classList.add("isColored");    
     }
 }
-
 function trailColor(e) {
     if(mouseDown){
         if(!e.target.classList.contains("isColored")) {
@@ -182,7 +188,6 @@ function trailColor(e) {
         }
     }
 }
-
 function shadeTrail(e) {
     if(mouseDown) {
         if(e.target.classList.contains("isColored")) {
@@ -197,7 +202,6 @@ function shadeTrail(e) {
         }
     }
 }
-
 function shadeTrailColor(e) {
     if(mouseDown) {
         if(e.target.classList.contains("isColored")) {
@@ -213,6 +217,24 @@ function shadeTrailColor(e) {
             e.target.style.backgroundColor = colorStr;
         }
     }
+}
+//click functions repeat code because they can't be anonymous, or
+//they can't be deleted with removeEventListeners()
+function trailClick(e) {
+    mouseDown = true;
+    trail(e);
+}
+function trailColorClick(e) {
+    mouseDown = true;
+    trailColor(e);
+}
+function shadeTrailClick(e) {
+    mouseDown = true;
+    shadeTrail(e);
+}
+function shadeTrailColorClick(e) {
+    mouseDown = true;
+    shadeTrailColor(e);
 }
 /* ================*/
 
