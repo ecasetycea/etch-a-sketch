@@ -105,9 +105,15 @@ function setupButtonEventListeners() {
             case "new":
                 let width = getNumberInput("Enter resolution width");
                 let height = getNumberInput("Enter resolution height");
+                
                 //handle cancellation or 0 entry
                 if(!width) width = DEFAULT_GRID_RESOLUTION[0];
                 if(!height) height = DEFAULT_GRID_RESOLUTION[1];
+                
+                //handle oversized grid
+                if(width > 100) width = 100;
+                if(height > 100) height = 100;
+                
                 resetGrid(width, height);
                 break;
             case "default":
