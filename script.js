@@ -39,6 +39,7 @@ function getRandomRGBArray() {
 }
 
 //returns string of hex
+/*
 function getRandomHexColor() {
     let colors = getRandomRGBArray();
     colors.forEach( (e) => {
@@ -48,6 +49,7 @@ function getRandomHexColor() {
     });
     return '#' + colors.join('');
 }
+*/
 
 function getNumberInput(promptText) {
     let number;
@@ -183,7 +185,8 @@ function trail(e) {
 function trailColor(e) {
     if(mouseDown){
         if(!e.target.classList.contains("isColored")) {
-            e.target.style.backgroundColor = getRandomHexColor();
+            let colors = getRandomRGBArray();
+            e.target.style.backgroundColor = `rgb(${colors[0]}, ${colors[1]}, ${colors[2]})`;
             e.target.classList.add("isColored");
         }
     }
@@ -212,8 +215,8 @@ function shadeTrailColor(e) {
         } else {
             e.target.classList.add("isColorShaded");
             e.target.classList.add("isColored");
-            colors = getRandomRGBArray();
-            colorStr = `rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, 0.1)`;
+            let colors = getRandomRGBArray();
+            let colorStr = `rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, 0.1)`;
             e.target.style.backgroundColor = colorStr;
         }
     }
