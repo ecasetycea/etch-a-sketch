@@ -12,11 +12,15 @@ const buttons = document.querySelector(".buttons");
 const colorSelect = document.querySelector(".colorSelect");
 let currentGridRes = DEFAULT_GRID_RESOLUTION.slice();
 let gridBoxes; //assigned after creation
+let mouseDown = false; //used to draw only with held click
 
 setup();
 
 
 function setup() {
+    document.body.addEventListener("mousedown", () => {mouseDown=true;} );
+    document.body.addEventListener("mouseup", () => {mouseDown=false;} );
+
     //add event listener for preselected button
     gridContainer.addEventListener("mouseover", trail);
     
@@ -164,42 +168,50 @@ function removeTrailEventListeners() {
 }
 
 function trail(e) {
-    e.target.classList.add("isBlack");
-    e.target.classList.add("isColored");    
+    if(mouseDown) {
+        e.target.classList.add("isBlack");
+        e.target.classList.add("isColored");    
+    }
 }
 
 function trailColor(e) {
-    if(!e.target.classList.contains("isColored")) {
-        e.target.style.backgroundColor = getRandomHexColor();
-        e.target.classList.add("isColored");
+    if(mouseDown){
+        if(!e.target.classList.contains("isColored")) {
+            e.target.style.backgroundColor = getRandomHexColor();
+            e.target.classList.add("isColored");
+        }
     }
 }
 
 function shadeTrail(e) {
-    if(e.target.classList.contains("isColored")) {
-        if(e.target.classList.contains("isShaded")) {
-            newColor = addBackgroundOpacity(e.target.style.backgroundColor, 10);
-            e.target.style.backgroundColor = newColor;
+    if(mouseDown) {
+        if(e.target.classList.contains("isColored")) {
+            if(e.target.classList.contains("isShaded")) {
+                newColor = addBackgroundOpacity(e.target.style.backgroundColor, 10);
+                e.target.style.backgroundColor = newColor;
+            }
+        } else {
+            e.target.classList.add("isShaded");
+            e.target.classList.add("isColored");
+            e.target.style.backgroundColor = "rgba(0, 0, 0, 0.1)"
         }
-    } else {
-        e.target.classList.add("isShaded");
-        e.target.classList.add("isColored");
-        e.target.style.backgroundColor = "rgba(0, 0, 0, 0.1)"
     }
 }
 
 function shadeTrailColor(e) {
-    if(e.target.classList.contains("isColored")) {
-        if(e.target.classList.contains("isColorShaded")) {
-            newColor = addBackgroundOpacity(e.target.style.backgroundColor, 10);
-            e.target.style.backgroundColor = newColor;
+    if(mouseDown) {
+        if(e.target.classList.contains("isColored")) {
+            if(e.target.classList.contains("isColorShaded")) {
+                newColor = addBackgroundOpacity(e.target.style.backgroundColor, 10);
+                e.target.style.backgroundColor = newColor;
+            }
+        } else {
+            e.target.classList.add("isColorShaded");
+            e.target.classList.add("isColored");
+            colors = getRandomRGBArray();
+            colorStr = `rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, 0.1)`;
+            e.target.style.backgroundColor = colorStr;
         }
-    } else {
-        e.target.classList.add("isColorShaded");
-        e.target.classList.add("isColored");
-        colors = getRandomRGBArray();
-        colorStr = `rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, 0.1)`;
-        e.target.style.backgroundColor = colorStr;
     }
 }
 /* ================*/
