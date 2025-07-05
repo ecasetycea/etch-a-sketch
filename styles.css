@@ -14,6 +14,19 @@ body {
     margin: 20px;
     display: flex;
     justify-content: center;
+    gap: 40px;
+    background-color: lightsteelblue;
+}
+
+.menu,
+.borderedContainer {
+    background-color: lightblue;
+    border: 4px deepskyblue solid;
+    border-radius: 12px;
+}
+
+.borderedContainer {
+    padding: 50px;
 }
 
 .menu {
@@ -22,8 +35,11 @@ body {
     justify-content: flex-start;
     align-items: center;
     align-self: flex-start;
-    gap: 30px;
-    margin-top: 30px;
+    gap: 10px;
+    /*
+    padding: 20px;
+    */
+    padding-top: 30px;
 }
 
 .buttons,
@@ -45,20 +61,20 @@ body {
 
 button {
     flex: none;
-    width: 160px;
+    width: 120px;
     height: 40px;
     margin: 0 20px;
     border: 4px deepskyblue solid;
     background-color: deepskyblue;
     border-radius: 20px;
     color: white;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 button.squareBtn {
     width: 45px; /*should be 75*/
     height: 45px;
-    margin: 2px 2px;
+    margin: 4px 4px;
     border-radius: 4px;
 }
 
@@ -70,13 +86,14 @@ button:hover {
 }
 
 button:active {
-    background-color: lightpink;
+    background-color: lightsteelblue;
 }
 
 .gridContainer {
     display: flex;
     justify-content: center;
     align-self: center;
+    background-color: white;
 }
 
 .gridColumn {

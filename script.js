@@ -61,10 +61,11 @@ function getNumberInput(promptText) {
 }
 
 function getBoxSize(gridWidth, gridHeight, gridResWidth, gridResHeight) {
-    const toolbarConst = 50;
-    gridHeight -= toolbarConst;
+    // magic number, don't change
+    const toolbarConst = 146;
+
     const boxWidth  = gridWidth/gridResWidth;
-    const boxHeight = gridHeight/gridResHeight;
+    const boxHeight = (gridHeight-toolbarConst)/gridResHeight;
     const boxSide = Math.floor(Math.min(boxWidth, boxHeight));
 
     return Math.floor(boxSide);
