@@ -1,7 +1,8 @@
 const DEFAULT_GRID_RESOLUTION = [16, 16]; //[width, height]
-//const GRID_SIZE = [document.body.clientWidth, document.body.clientHeight];
+const toolbarConst = 150; //magic number to account for margins
 const GRID_SIZE = [window.innerWidth, window.innerHeight]; //[width, height] (px)
 
+//document references
 const gridContainer = document.querySelector(".gridContainer");
 const newButton = document.querySelector("#new");
 const defaultButton = document.querySelector("#default");
@@ -61,8 +62,6 @@ function getNumberInput(promptText) {
 }
 
 function getBoxSize(gridWidth, gridHeight, gridResWidth, gridResHeight) {
-    // magic number, don't change
-    const toolbarConst = 146;
 
     const boxWidth  = gridWidth/gridResWidth;
     const boxHeight = (gridHeight-toolbarConst)/gridResHeight;
