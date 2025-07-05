@@ -1,5 +1,6 @@
 const DEFAULT_GRID_RESOLUTION = [16, 16]; //[width, height]
-const GRID_SIZE = [800, 800]; //[width, height] (px)
+//const GRID_SIZE = [document.body.clientWidth, document.body.clientHeight];
+const GRID_SIZE = [window.innerWidth, window.innerHeight]; //[width, height] (px)
 
 const gridContainer = document.querySelector(".gridContainer");
 const newButton = document.querySelector("#new");
@@ -57,9 +58,16 @@ function getNumberInput(promptText) {
 }
 
 function getBoxSize(gridWidth, gridHeight, gridResWidth, gridResHeight) {
+    const toolbarConst = 50;
+    gridHeight -= toolbarConst;
+    const boxWidth  = gridWidth/gridResWidth;
+    const boxHeight = gridHeight/gridResHeight;
+    const boxSide = Math.floor(Math.min(boxWidth, boxHeight));
+    /*
     let minSize = Math.min(gridWidth, gridHeight);
     let maxRes = Math.max(gridResWidth, gridResHeight);
     let boxSide = minSize / maxRes;
+    */
     return Math.floor(boxSide);
 }
 
