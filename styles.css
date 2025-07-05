@@ -45,7 +45,7 @@ body {
 
 button {
     flex: none;
-    width: 130px;
+    width: 160px;
     height: 40px;
     margin: 0 20px;
     border: 4px deepskyblue solid;
@@ -86,16 +86,23 @@ button:active {
 }
 
 /* BORDERS */
-.gridBox {
+.gridBoxBorder {
     border-bottom: 1px black solid;
     border-right: 1px black solid;
 }
 .isOnTopRow {
     border-top: 1px black solid;
 }
+.isOnBottomRow {
+    border-bottom: 1px black solid;
+}
 .isOnLeftColumn {
     border-left: 1px black solid;
 }
+.isOnRightColumn {
+    border-right: 1px black solid;
+}
+
 /* ============= */
 
 .isShaded {

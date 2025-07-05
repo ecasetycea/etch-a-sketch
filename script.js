@@ -6,11 +6,14 @@ const gridContainer = document.querySelector(".gridContainer");
 const newButton = document.querySelector("#new");
 const defaultButton = document.querySelector("#default");
 const resetButton = document.querySelector("#reset");
+const gridlinesButton = document.querySelector("#gridlines");
 const buttons = document.querySelector(".buttons");
 const colorSelect = document.querySelector(".colorSelect");
 let currentGridRes = DEFAULT_GRID_RESOLUTION.slice();
+let gridBoxes; //assigned after creation
 
 setup();
+
 
 function setup() {
     //add event listener for preselected button
@@ -63,11 +66,7 @@ function getBoxSize(gridWidth, gridHeight, gridResWidth, gridResHeight) {
     const boxWidth  = gridWidth/gridResWidth;
     const boxHeight = gridHeight/gridResHeight;
     const boxSide = Math.floor(Math.min(boxWidth, boxHeight));
-    /*
-    let minSize = Math.min(gridWidth, gridHeight);
-    let maxRes = Math.max(gridResWidth, gridResHeight);
-    let boxSide = minSize / maxRes;
-    */
+
     return Math.floor(boxSide);
 }
 
@@ -113,7 +112,7 @@ function setupButtonEventListeners() {
                 //handle oversized grid
                 if(width > 100) width = 100;
                 if(height > 100) height = 100;
-                
+
                 resetGrid(width, height);
                 break;
             case "default":
@@ -121,6 +120,13 @@ function setupButtonEventListeners() {
                 break;
             case "reset":
                 resetGrid(...currentGridRes);
+                break;
+            case "gridlines":
+                e.target.classList.toggle("isSelected");
+                gridBoxes.forEach( (gridBox) => {
+                    gridBox.classList.toggle("gridBoxBorder");
+                })
+                break;
         }
     });
     colorSelect.addEventListener("click", (e) => {
@@ -219,12 +225,23 @@ function createGrid(...gridResolution) {
             
             //add border missing from some boxes
             if(j === 0) gridBox.classList.add("isOnTopRow");
+            if(j === gridResolution[1]-1) gridBox.classList.add("isOnBottomRow");
             if(i === 0) gridBox.classList.add("isOnLeftColumn");
-            
+            if(i === gridResolution[0]-1) gridBox.classList.add("isOnRightColumn");
+
             gridColumn.appendChild(gridBox);
         }
         gridContainer.appendChild(gridColumn);
     }
+    //bind boxes to global variable for access
+    //(also updates when grid resets)
+    gridBoxes = document.querySelectorAll(".gridBox");
+    if(gridlinesButton.classList.contains("isSelected")) {
+        gridBoxes.forEach( box => {
+            box.classList.add("gridBoxBorder");
+        });
+    }
+        
 }
 
 function resetGrid(...gridResolution) {
